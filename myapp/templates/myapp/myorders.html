@@ -1,0 +1,13 @@
+{% extends 'myapp/base.html' %}
+{% block myhdg %}Hello {{ username }} {% endblock %}
+{% block body_block %}
+
+{#    <p>{{ order_product }}</p>#}
+    {% for order_product in order_product %}
+
+            <p>{{ order_product.product }}</p>
+
+    {% endfor %}
+
+
+{% endblock %}

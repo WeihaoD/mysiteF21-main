@@ -1,0 +1,21 @@
+{% extends 'myapp/base.html' %}
+{% block myhdg %}Hello Weihao {% endblock %}
+{% block body_block %}
+    {% if prodavailable == False %}
+        <h3>{{ prodname }} is not available now!</h3>
+    {% else %}
+        <p>{{ prodname }}</p>
+        <p>Price: {{ prodprice }} $</p>
+        <p>{{ prodinterested }} people are interested</p>
+        <p><a href="{% url 'myapp:place_order' %}">Place Order</a></p>
+
+
+        <form action="." method="post">
+            {% csrf_token %}
+{#             https://docs.djangoproject.com/en/3.2/ref/csrf/#}
+            {{ form }}
+            <input type="submit" value="Submit" />
+        </form>
+    {% endif %}
+
+{% endblock %}

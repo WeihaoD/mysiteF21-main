@@ -1,0 +1,15 @@
+{% extends 'myapp/base.html' %}
+{% block myhdg %}Hello Weihao {% endblock %}
+{% block body_block %}
+    <h1>Category: {{ category }}</h1>
+    <h2>Warehouse Location: {{ warehouse }}</h2>
+    <h3>Product List: </h3>
+    <ol>
+        {% for product in product_list %}
+            <li>
+                {{ product }}
+            </li>
+        {% endfor %}
+    </ol>
+{#    <p><a href="{% url 'myapp:index' %}">Index Page</a></p>#}
+{% endblock %}

@@ -1,0 +1,26 @@
+{% extends 'myapp/base.html' %}
+{#{% block myhdg %}Hello {{ username }} {% endblock %}#}
+{% block myhdg %}Hello {{ username }} {% endblock %}
+{% block body_block %}
+    <p>{{ msg }}</p>
+    <p>{{ last_login }}</p>
+    <a href="{% url 'myapp:login' %}">Login</a>
+    <form action="{% url 'myapp:logout' %}" method="post">
+        {% csrf_token %}
+        <input type="submit" value="Logout" />
+    </form>
+    <a href="{% url 'myapp:myorders' %}">Myorders</a>
+    {% if cat_list %}
+        <h2>List of Categories</h2>
+        <ol>
+            {% for cat in cat_list %}
+                <li>
+                    <a href="{% url 'myapp:cat_no' cat.id %}">{{ cat.name}}</a>
+                </li>
+            {% endfor %}
+        </ol>
+    {% else %}
+        <strong>There are no available categories!</strong>
+    {% endif %}
+{#    <p><a href="{% url 'myapp:about' %}">About Page</a></p>#}
+{% endblock %}

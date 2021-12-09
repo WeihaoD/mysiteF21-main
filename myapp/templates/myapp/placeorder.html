@@ -1,0 +1,16 @@
+
+{% extends 'myapp/base.html' %}
+{% block myhdg %}You can place an order here {% endblock %}
+{% block body_block %}
+    <h3>Products</h3>
+    {% for prodlist in prodlist %}
+        <li>{{ prodlist }}</li>
+    {% endfor %}
+
+    <form action="." method="post">
+        {% csrf_token %}
+{#        https://docs.djangoproject.com/en/3.2/ref/csrf/#}
+        {{ form }}
+        <input type="submit" value="Submit" />
+    </form>
+{% endblock %}
