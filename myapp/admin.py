@@ -25,8 +25,12 @@ class ProductAdmin(admin.ModelAdmin):
     actions = [add_stock]
 
 
+class ClientAdmin(admin.ModelAdmin):
+    list_display = ('first_name', 'last_name', 'city', 'get_interested')
+
+
 # Register your models here.
 admin.site.register(Product, ProductAdmin)
 admin.site.register(Category)
-admin.site.register(Client)
+admin.site.register(Client, ClientAdmin)
 admin.site.register(Order)

@@ -12,11 +12,8 @@
             <br>
             <input type="submit" value="Login" />
         </div>
-
-{#  <div class="container" style="background-color:#f1f1f1">#}
-{#    <button type="button" class="cancelbtn">Cancel</button>#}
-{#    <span class="psw">Forgot <a href="#">password?</a></span>#}
-{#  </div>#}
+    <br>
+    <a href="{% url 'myapp:password_reset' %}">Reset Password</a>
     </form>
 {% endblock %}
 

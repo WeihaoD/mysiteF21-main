@@ -2,10 +2,11 @@
 # Import necessary classes
 import datetime
 
+from django.contrib.auth.forms import UserCreationForm
 from django.http import HttpResponse, HttpResponseRedirect
 from django.urls import reverse
 
-from .forms import OrderForm, InterestForm, RegisterForm
+from .forms import OrderForm, InterestForm, RegisterForm, UploadPhoto
 from .models import Category, Product, Client, Order
 from django.shortcuts import get_object_or_404, redirect
 from django.shortcuts import render
@@ -14,22 +15,8 @@ from django.contrib.auth.decorators import login_required, user_passes_test
 
 
 # Create your views here.
-# def index(request):
-#     product_list = Product.objects.all().order_by('-price')[:5]
-#
-#     response = HttpResponse()
-#     heading1 = '<p>' + 'List of products: ' + '</p>'
-#     response.write(heading1)
-#     for product in product_list:
-#         # para = '<p>' + str(product.id) + ': ' + str(product) + '</p>'
-#         para = '<p>' + str(product) + '</p>'
-#         response.write(para)
-#     return response
 def index(request):
     cat_list = Category.objects.all().order_by('id')[:10]
-    username = request.user.username
-    if not username:
-        username = ' '
     msg = ''
     last_login = ''
     if 'last_login' not in request.session:
@@ -38,15 +25,8 @@ def index(request):
         last_login = 'Last login time is ' + request.session.get('last_login')
     return render(request, 'myapp/index.html', {'cat_list': cat_list,
                                                 'msg': msg,
-                                                'last_login': last_login,
-                                                'username': username})
+                                                'last_login': last_login})
 
-
-# def about(request):
-#     response = HttpResponse()
-#     text = '<p>' + 'This is an Online Store APP' + '</p>'
-#     response.write(text)
-#     return response
 
 def about(request):
     about_visits = request.session.get('about_visits', 0)
@@ -55,26 +35,6 @@ def about(request):
     return render(request, 'myapp/about.html', {'about_visits': about_visits})
 
 
-# def detail(request, cat_no):
-#     response = HttpResponse()
-#
-#     # category = Category.objects.get(id=cat_no)
-#     category = get_object_or_404(Category, id=cat_no)
-#     warehouse = category.warehouse
-#     product_list = Product.objects.filter(category=cat_no)
-#
-#     category_title = '<h1>' + 'Category: ' + str(category) + '</h1>'
-#     warehouse_title = '<h2>' + 'Warehouse: ' + warehouse + '</h2>'
-#     product_title = '<h3>' + 'Products from ' + str(category) + ':' + '</h3>'
-#
-#     response.write(category_title)
-#     response.write(warehouse_title)
-#     response.write(product_title)
-#
-#     for product in product_list:
-#         para = '<p>' + str(product) + '</p>'
-#         response.write(para)
-#     return response
 def detail(request, cat_no):
     # category = Category.objects.get(id=cat_no)
     category = get_object_or_404(Category, id=cat_no)
@@ -171,9 +131,9 @@ def user_register(response):
         form = RegisterForm(response.POST)
         if form.is_valid():
             form.save()
-            return redirect("myapp:index")
-        else:
-            form = RegisterForm()
+        return redirect("myapp:index")
+    else:
+        form = RegisterForm()
 
     return render(response, 'myapp/register.html', {'form': form})
 
@@ -197,3 +157,27 @@ def myorders(request):
         return HttpResponse('You are not a registered client!')
     return render(request, 'myapp/myorders.html', {'username': username,
                                                    'order_product': order_product})
+
+
+
+@login_required(login_url='/myapp/login/')
+def upload_photo(request):
+    form = UploadPhoto(request.POST or None, request.FILES or None)
+    if form.is_valid():
+        instance = form.save(commit=False)
+        instance.save()
+        return HttpResponseRedirect(instance.get_absolute_url())
+
+    return render(request, 'myapp/upload_photo.html', {'form': form})
+
+
+@login_required(login_url='/myapp/login/')
+def update_photo(request):
+    instance = get_object_or_404(Client, id=id)
+    form = UploadPhoto(request.POST or None, request.FILES or None, instance=instance)
+    if form.is_valid():
+        instance = form.save(commit=False)
+        instance.save()
+        return HttpResponseRedirect(instance.get_absolute_url())
+
+    return render(request, 'myapp/upload_photo.html', {'form': form})

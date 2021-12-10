@@ -2,7 +2,7 @@ from django import forms
 from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth.models import User
 
-from myapp.models import Order, Product
+from myapp.models import Order, Product, Client
 
 
 class OrderForm(forms.ModelForm):
@@ -43,7 +43,12 @@ class InterestForm(forms.Form):
 
 
 class RegisterForm(UserCreationForm):
-
     class Meta:
-        model = User
-        fields = ["username", "password1", "password2"]
+        model = Client
+        fields = ['username', 'first_name', 'last_name', 'email', 'password1', 'password2']
+
+
+class UploadPhoto(forms.ModelForm):
+    class Meta:
+        model = Client
+        fields = ['photo']
