@@ -8,16 +8,11 @@
             <img src="{{ request.user.client.photo.url }}" height="200" />
         </div>
     {% endif %}
+
     {% if user.is_authenticated %}
         <a href="{% url 'myapp:upload_photo' %}">upload photo</a>
     {% endif %}
-{#    {% if user.is_authenticated %}#}
-{#        <form action="" method="post" enctype="multipart/form-data">#}
-{#        {% csrf_token %}#}
-{#        {{ form.as_p }}#}
-{#        <input type="submit" value="upload photo" />#}
-{#        </form>#}
-{#    {% endif %}#}
+
     {% if cat_list %}
         <h2>List of Categories</h2>
         <ol>
