@@ -10,8 +10,9 @@ from django import forms
 from django.urls import reverse
 from django.utils import timezone
 
+
 def validate_stock(value):
-    if value > 0 and value < 1000:
+    if 0 < value < 1000:
         return value
     else:
         raise ValidationError("This field accepts value between 0 and 1000")
@@ -29,7 +30,7 @@ class Product(models.Model):
     category = models.ForeignKey(Category, related_name='products', on_delete=models.CASCADE)
     name = models.CharField(max_length=200)
     price = models.DecimalField(max_digits=10, decimal_places=2)
-    stock = models.PositiveIntegerField(default=100, validators =[validate_stock])
+    stock = models.PositiveIntegerField(default=100, validators=[validate_stock])
     available = models.BooleanField(default=True)
     description = models.TextField(blank=True)
     interested = models.PositiveIntegerField(default=0)
