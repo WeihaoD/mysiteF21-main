@@ -26,6 +26,7 @@ urlpatterns = [
     path('myorders/', views.myorders, name='myorders'),
     path('register/', views.user_register, name='register'),
     path('upload_photo/', views.upload_photo, name='upload_photo'),
+    # path('display_photo/', views.display_profile, name='display_profile'),
 
     path('password_reset/',
          auth_views.PasswordResetView.as_view(template_name='myapp/password_reset.html'),

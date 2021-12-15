@@ -4,6 +4,7 @@
     {% if request.user.client.photo %}
         <div>
             <img src="{{ request.user.client.photo.url }}" height="200" />
+{#            <img src="{{ profile_images.photo.url }}" height="200" class="img-responsive" style="width: 30%; float: left; margin-right: 10px;" />#}
         </div>
     {% endif %}
     {% if user.is_authenticated %}

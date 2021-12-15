@@ -162,22 +162,24 @@ def myorders(request):
 
 @login_required(login_url='/myapp/login/')
 def upload_photo(request):
-    form = UploadPhoto(request.POST or None, request.FILES or None)
-    if form.is_valid():
-        instance = form.save(commit=False)
-        instance.save()
-        return HttpResponseRedirect(instance.get_absolute_url())
+    username = request.user.username
+    instance = get_object_or_404(Client, username=username)
+    if request.method == 'POST':
+        form = UploadPhoto(request.POST, request.FILES,instance=instance)
 
+        if form.is_valid():
+            instance = form.save()
+            instance.save()
+            return redirect('myapp:index')
+    else:
+        form = UploadPhoto()
     return render(request, 'myapp/upload_photo.html', {'form': form})
 
 
-@login_required(login_url='/myapp/login/')
-def update_photo(request):
-    instance = get_object_or_404(Client, id=id)
-    form = UploadPhoto(request.POST or None, request.FILES or None, instance=instance)
-    if form.is_valid():
-        instance = form.save(commit=False)
-        instance.save()
-        return HttpResponseRedirect(instance.get_absolute_url())
-
-    return render(request, 'myapp/upload_photo.html', {'form': form})
+def display_profile(request):
+    if request.method == 'GET':
+        # getting all the objects of hotel.
+        username = request.user.username
+        print(username)
+        instance = get_object_or_404(Client, username=username)
+        return render(request, 'myapp/index.html',{'profile_images': instance})

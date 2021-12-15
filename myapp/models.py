@@ -49,8 +49,8 @@ class Client(User):
     def __str__(self):
         return self.first_name + ' ' + self.last_name
 
-    def get_absolute_url(self):
-        return reverse("myapp:index", kwargs={"id": self.id})
+    # def get_absolute_url(self):
+    #     return reverse("myapp:index", kwargs={"id": self.id})
 
     def get_interested(self):
         return ",".join([str(i) for i in self.interested_in.all()])
