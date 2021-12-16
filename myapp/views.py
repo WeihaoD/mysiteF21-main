@@ -117,7 +117,7 @@ def user_login(request):
                 last_login = datetime.datetime.now().strftime('%c')
                 request.session['last_login'] = str(last_login)
                 request.session.set_expiry(3600)
-                return HttpResponseRedirect(reverse('myapp:index'))
+                return HttpResponseRedirect(reverse('myapp:myorders'))
             else:
                 return HttpResponse('Your account is disabled.')
         else:
